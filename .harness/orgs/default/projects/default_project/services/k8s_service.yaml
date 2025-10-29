@@ -1,0 +1,39 @@
+service:
+  name: k8s service
+  identifier: k8s_service
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      manifests:
+        - manifest:
+            identifier: templates
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: account.Github_OAuth_1761660383029
+                  gitFetchType: Branch
+                  paths:
+                    - ashokmph MERN-Stack-Example
+                  repoName: <+input>
+                  branch: main
+              valuesPaths:
+                - ashokmph MERN-Stack-Example/server
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+              optionalValuesYaml: false
+      artifacts:
+        primary:
+          primaryArtifactRef: <+input>
+          sources:
+            - spec:
+                connectorRef: account.harnessImage
+                imagePath: https://hub.docker.com/r/ashok2604/testdocker
+                tag: <+input>
+                digest: ""
+              identifier: DockerArtifcatory
+              type: DockerRegistry
+  gitOpsEnabled: false
+  orgIdentifier: default
+  projectIdentifier: default_project
